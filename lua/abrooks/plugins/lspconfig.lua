@@ -5,8 +5,8 @@ return {
     { 'williamboman/mason.nvim', config = true },
     'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
-    { 'j-hui/fidget.nvim', opts = {} },
-    { 'folke/neodev.nvim', opts = {} },
+    { 'j-hui/fidget.nvim',       opts = {} },
+    { 'folke/neodev.nvim',       opts = {} },
     'hrsh7th/cmp-nvim-lsp',
   },
   config = function()
@@ -86,21 +86,8 @@ return {
           })
         end
 
-        if client and client.supports_method 'textDocument/formatting' then
-          vim.api.nvim_clear_autocmds {
-            group = augroup,
-            buffer = bufnr,
-          }
-          vim.api.nvim_create_autocmd('BufWritePre', {
-            group = augroup,
-            buffer = bufnr,
-            callback = function()
-              vim.lsp.buf.format { bufnr = bufnr }
-            end,
-          })
-        end
-
         -- The following autocommand is used to enable inlay hints in your
+
         -- code, if the language server you are using supports them
         --
         -- This may be unwanted, since they displace some of your code
@@ -157,6 +144,7 @@ return {
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
+      'prettier',
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
